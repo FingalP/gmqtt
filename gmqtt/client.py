@@ -269,6 +269,7 @@ class Client(MqttPackageHandler, SubscriptionsHandler):
         except OSError as exc:
             self.failed_connections += 1
             logger.warning("[CAN'T RECONNECT] %s", self.failed_connections)
+            logger.exception(f'Caught OSError {exc}')
             asyncio.ensure_future(self.reconnect(delay=True))
             return
         await self._connection.auth(self._client_id, self._username, self._password,
